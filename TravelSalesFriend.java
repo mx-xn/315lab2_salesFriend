@@ -17,7 +17,7 @@ public class TravelSalesFriend {
 
   public static int getMinCost(int n, int[][] flyCost) {
     // mc[i][j]: min cost if I stop at i and friend stop at j
-    int[][] mc = new mc[n][n];
+    int[][] mc = new int[n][n];
     
     /* Base case:
      *   mc[0][0] = 0; [probably all [a][a] should = -1]
@@ -55,8 +55,11 @@ public class TravelSalesFriend {
      *     }
      *   }
      *
-     *Return:
+     * Return:
          return //return what????
          return min(mc[i = 0 ... n - 2][n - 1], mc[n - 1][0...n - 2]);
+     */
+
+    return 0;
   }
 }
