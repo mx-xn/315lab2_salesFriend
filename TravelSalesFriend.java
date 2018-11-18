@@ -14,7 +14,7 @@ public class TravelSalesFriend {
     //after reading the input
    //int[][] recover = new int[n][n];
    int minCost = getMinCost(n, flyCost);
-   System.out.println(minCost);
+   System.out.println("minCost: " +minCost);
   }
 
   public static int getMinCost(int n, int[][] flyCost) {
@@ -39,19 +39,23 @@ public class TravelSalesFriend {
       for (int j = 1; j < n; j++) {
         if (i < j) {
           if (j - i == 1) {
+            // choose from which city prior than i friend flies to j
             int min = Integer.MAX_VALUE;
             for (int k = 0; k < i; k++){
-              if (k == 1) continue;
+              //if (k == 1) continue;
+              int fc = flyCost[k][j];
 
-              if (min > ( mc[i][k] + flyCost[k][j] )){
-                min = mc[i][k] + flyCost[k][j];
+              // if friend starts at j
+              if (k == 0) 
+                fc = 0;
+
+              if (min > mc[i][k] + fc) {
+                min = mc[i][k] + fc;
                 //recover[i][j] = min;
               }
             }
-            //mc[i][j] = Math.min(mc[i - 1][j] + flyCost[i - 1][i], //I fly from i - 1
-              //`                 mc[i][i - 1] + flyCost[i - 1][j]); //F fly from i - 1
-            }
-
+            mc[i][j] = min;
+          }
           else {
             mc[i][j] = mc[i][j - 1] + flyCost[j-1][j];
           }
@@ -59,41 +63,40 @@ public class TravelSalesFriend {
 
         else if (i > j) {
           if (i - j == 1) {
+            // choose from which city prior to j I fly from
             int min = Integer.MAX_VALUE;
             for (int k = 0; k < j; k++){
-              if (k == 1) continue;
-              if (min > ( mc[k][j] + flyCost[k][i] )){
+              //if (k == 1) continue;
+              if (min > mc[k][j] + flyCost[k][i]){
                 min = mc[k][j] + flyCost[k][i];
                 //recover[i][j] = min;
               }
             }
+            mc[i][j] = min;
           }
           else {
             mc[i][j] = mc[i - 1][j] + flyCost[i - 1][i];
           }
         }
-        //else {
-              // i == j, but do what?
-        //}
       }
     }
+    /*
     for (int[] j : mc){
       for (int i : j){
         System.out.println(i);
       }
     }
+    */
     int min = Integer.MAX_VALUE;
     //System.out.println("Friend ends");
     for (int i = 0; i < n - 1; i++) {
       min = (mc[i][n-1] < min) ? mc[i][n-1] : min;
-      //System.out.println(mc[i][n-1]);
     }
 
     //System.out.println("I end");
     for (int j = 0; j < n - 1; j++) {
       min = (mc[n-1][j] < min) ? mc[n-1][j] : min;
-      //System.out.println(mc[n-1][j]);
     }
-      return min;
+    return min;
   }
 }
